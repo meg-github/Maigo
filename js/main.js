@@ -7,11 +7,12 @@ $(document).on('pageinit', '#top', function() {
         type: 'get',
         dataType: 'text', //読み込む形式を指定
         // header: false, //ヘッダーの扱い
-        async: false
     })
     .success(function(data) {
         //csvを配列に入れる
-        var csv = $.csv.toArrays(data);
+        var csv = $.csv.toArrays(data); // ← 使ってないよね…？
+
+        /* 編集ここから(施設をランダム文字列にしている) */
         //csvを改行コード区切りのデータにする
         var lines = data.split(/\r\n|\r|\n/);
         //1からデータ数までの乱数を発生させる
@@ -35,6 +36,7 @@ $(document).on('pageinit', '#top', function() {
         var karioki = gucha;
         //一文字区切りのデータを結合する
         App.randomString = karioki.join("・");
+        /* 編集ここまで */
 
         App.goalLong = view[0]; // 経度
         App.goalLat = view[1]; // 緯度
@@ -47,7 +49,7 @@ $(document).on('pageinit', '#top', function() {
 });
 
 $(document).on('pageinit', '#main', function() {
-    $('#random').append(App.randomString);
+    $('#random').append(App.randomString); //ランダムの文字列を入れている
     console.log(App.randomString);
 
     App.geoLocation.watchCurrentPosition(function(pos) {
@@ -82,13 +84,9 @@ $(document).on('pageinit', '#main', function() {
         //   App.gazou="imgs/up_center.png";
         // }else(App.direction="南西"){
         //   App.gazou="imgs/up_center.png";
-
         // }
-
-
-
-
     });
+
     console.log('Loaded Main Page');
 });
 
