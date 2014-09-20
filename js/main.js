@@ -9,7 +9,6 @@ $(document).on('pageinit', '#top', function() {
         // header: false, //ヘッダーの扱い
         async: false
     })
-
     .success(function(data) {
         //csvを配列に入れる
         var csv = $.csv.toArrays(data);
