@@ -6,6 +6,7 @@
 	width=100%;
 	height=100%;
 }
+
 #main{
 	background: url(imgs/walking.jpg);
 	background-repeat: no-repeat;
@@ -14,6 +15,7 @@
 	width=100%;
 	height=100%;
 }
+
 #goal{
 	background: url(imgs/goal_b.png);
 	background-repeat: no-repeat;
@@ -28,11 +30,13 @@
 	float:left;
 	margin-left: 3%;
 }
+
 #place_name{
 	width: 60%;
 	margin-left:auto;
 	margin-right:5%;
 }
+
 #place_details{
 	width:60%;
 	margin-left:auto;
@@ -70,34 +74,41 @@ p#random {
 	font-size: large;
 	color: blue;
 }
+
 p#ikisaki_to {
 	margin-top: -15px;
 	text-align: right;
 }
+
 p#houkou_to {
 	font-size:large;
 	margin-top: -50px;
 	text-align: right;
 }
+
 p#hougaku {
 	text-align:center;
 	font-size: xx-large;
 	font-weight:bold;
 	color: #FF8C00;
 }
+
 p#ato {
 	font-size:large;
 }
+
 p#kyori {
 	text-align:center;
 	font-size: xx-large;
 	font-weight:bold;
 	margin-top:-50px;
 }
+
 p#kyori_tani{
 	margin-top:-30px;
 	text-align:right;
 }
+
 a{
 	text-align:center;
 }
