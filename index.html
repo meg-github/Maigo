@@ -1,54 +1,66 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="content-language" content="ja">
-		<meta charset="utf-8">
-		<meta name="viewport" content="height=480, width=320, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-		<script type="text/javascript" src="./lib/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="./lib/jquery.mobile-1.4.3.min.js"></script>
-		<script type="text/javascript" src="./lib/jquery.csv-0.71.js"></script>
 
+<head>
+    <meta http-equiv="content-language" content="ja">
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=480, width=320, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
-		<link rel="stylesheet" href="style.css">
-		<link rel="stylesheet" href="lib/jquery.mobile-1.4.0.min.css">
+    <!-- ライブラリの読み込み-->
+    <script type="text/javascript" src="./lib/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="./lib/jquery.mobile-1.4.3.min.js"></script>
+    <script type="text/javascript" src="./lib/jquery.csv-0.71.js"></script>
 
-	</head>
-	<body>
-	<!-- トップページ -->
-		<div data-role="page" id="top">
-			<div data-role="main" class="ui-content">
-				<a href="#main"><img src="imgs/button_start.jpg" class="hajimaru"></a>
-			</div>
-		</div>
-	<!-- メインページ(検索画面) -->
-		<div data-role="page" id="main">
-	    		<div role="main" class="ui-content">
-				
-				<p id="random" style="position: relative;"></p>
-				<p id="ikisaki_to">にいくよ！</p>
-				<p id="hougaku" style="position: relative;"></p>
-				<p id="houkou_to">へ</p>
-				<p id="ato">あと</p>
-				<p id="kyori" style="position: relative;">
-				</p>
-				<p id="kyori_tani">キロメートル</p>
-				<center><img src="imgs/low_center.png" class="gazou"></center>
-				<a href="#top"><img src="imgs/button_back.jpg" class="modoru"></a>
-			</div>
-		</div>
-	<!-- ゴールページ -->
-		<div data-role="page" id="goal">
-			<div data-role="header">
-	        <div role="main" class="ui-content">
-				<h1><img src="imgs/goal.png"></h1>
-			</div>
-		</div>
+    <link rel="stylesheet" href="lib/jquery.mobile-1.4.0.min.css">
 
+    <!-- スタイルファイルの読み込み -->
+    <link rel="stylesheet" href="style.css">
 
+</head>
+
+<body>
+    <!-- トップページ -->
+    <div data-role="page" id="top">
+        <div data-role="main" class="ui-content">
+            <a href="#main">
+                <img src="imgs/button_start.jpg" class="hajimaru">
+            </a>
+        </div>
+    </div>
+
+    <!-- メインページ(検索画面) -->
+    <div data-role="page" id="main">
+        <div role="main" class="ui-content">
+            <p id="random" style="position: relative;"></p>
+            <p id="ikisaki_to">にいくよ！</p>
+            <p id="hougaku" style="position: relative;"></p>
+            <p id="houkou_to">へ</p>
+            <p id="ato">あと</p>
+            <p id="kyori" style="position: relative;"></p>
+            <p id="kyori_tani">キロメートル</p>
+            <center>
+                <img src="imgs/low_center.png" class="gazou">
+            </center>
+            <a href="#top">
+                <img src="imgs/button_back.jpg" class="modoru">
+            </a>
+        </div>
+    </div>
+
+    <!-- ゴールページ -->
+    <div data-role="page" id="goal">
+        <div data-role="header">
+            <div role="main" class="ui-content">
+                <h1>
+                    <img src="imgs/goal.png">
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- JSの読み込み -->
     <script type="text/javascript" src="./js/geolocation.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+</body>
 
-
-
-	</body>
 </html>

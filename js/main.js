@@ -2,50 +2,48 @@ var App = {};
 var PRECISION = 1;
 
 $(document).on('pageinit', '#top', function() {
-        $.ajax({
-           url: 'csvData/data-new1.csv',  //ファイルの場所を指定
-           type: 'get',
-            dataType:'text',  //読み込む形式を指定
-            // header: false, //ヘッダーの扱い
-           async: false
-       })
+    $.ajax({
+        url: 'csvData/data-new1.csv', //ファイルの場所を指定
+        type: 'get',
+        dataType: 'text', //読み込む形式を指定
+        // header: false, //ヘッダーの扱い
+        async: false
+    })
 
-       .success(function(data){
-          //csvを配列に入れる
-          var csv = $.csv.toArrays(data);
-          //csvを改行コード区切りのデータにする
-          var lines = data.split(/\r\n|\r|\n/);
-          //1からデータ数までの乱数を発生させる
-          var random = (Math.floor(Math.random()*lines.length)+1);
-          //選ばれたデータをfactorに入れる
-          var factor = lines[random];
-          //factorに入っているデータをカンマで区切る
-          var view = factor.split(",");
+    .success(function(data) {
+        //csvを配列に入れる
+        var csv = $.csv.toArrays(data);
+        //csvを改行コード区切りのデータにする
+        var lines = data.split(/\r\n|\r|\n/);
+        //1からデータ数までの乱数を発生させる
+        var random = (Math.floor(Math.random() * lines.length) + 1);
+        //選ばれたデータをfactorに入れる
+        var factor = lines[random];
+        //factorに入っているデータをカンマで区切る
+        var view = factor.split(",");
 
-//施設名ひらがなをぐちゃぐちゃに表示する
-          //施設名ひらがなをsourceに入れる
-          var source = view[3];
-          //一文字ごとに区切る
-          var gucha = source.split('');
-          //適当な順番にソートする
-          gucha.sort(
-            function(){
-              return Math.random()*100 - Math.random()*100;
+        //施設名ひらがなをぐちゃぐちゃに表示する
+        //施設名ひらがなをsourceに入れる
+        var source = view[3];
+        //一文字ごとに区切る
+        var gucha = source.split('');
+        //適当な順番にソートする
+        gucha.sort(
+            function() {
+                return Math.random() * 100 - Math.random() * 100;
             });
-          //ソートされた文字を違う変数に仮置き
-          var karioki = gucha
-          //一文字区切りのデータを結合する
-          App.randomString = karioki.join("・"); 
+        //ソートされた文字を違う変数に仮置き
+        var karioki = gucha;
+        //一文字区切りのデータを結合する
+        App.randomString = karioki.join("・");
 
+        App.goalLong = view[0]; // 経度
+        App.goalLat = view[1]; // 緯度
+        App.geoLocation = new GeoLocation();
 
-    App.goalLong = view[0]; // 経度
-    App.goalLat = view[1]; // 緯度
-    App.geoLocation = new GeoLocation();
-
-    console.log('Loaded Top Page');
-    console.log(lines[random]); //発生した乱数の行を読み込む
-
-})
+        console.log('Loaded Top Page');
+        console.log(lines[random]); //発生した乱数の行を読み込む
+    });
 
 });
 
@@ -65,8 +63,6 @@ $(document).on('pageinit', '#main', function() {
         $('#hougaku').append(App.direction);
         console.log(App.direction); // 方位(e.g., 北, 南)
 
- 
-
         // if(App.direction="北"){
         //   $('#abc').append("ほうがくううううううう");
         //   App.gazou="imgs/up_center.png";
@@ -84,7 +80,7 @@ $(document).on('pageinit', '#main', function() {
         // }else if(App.direction="北西"){
         //   $('#abc').append("ほうがくljlkjl");
         // }else if(App.direction="南東"){
-        //   App.gazou="imgs/up_center.png";        
+        //   App.gazou="imgs/up_center.png";
         // }else(App.direction="南西"){
         //   App.gazou="imgs/up_center.png";
 
@@ -106,4 +102,3 @@ $(document).on('pageinit', '#goal', function() {
 
     console.log('Loaded Goal Page');
 });
-
