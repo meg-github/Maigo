@@ -86,9 +86,24 @@ $(document).on('pageinit', '#main', function() {
         //   App.gazou="imgs/up_center.png";
         // }
     });
+    //ヒントの表示プログラム
+    $(".hintbutton").on('click', function() {
+        var hinttxt = {//ヒントのレベル別オブジェクトを作成
+            'hint1':'ヒント1',
+            'hint2':'ヒント2',
+            'hint3':'ヒント3'
+        };
+
+        for(var key in hinttxt){
+            if(key == $(this).attr("name")) {
+                $('#comment').html('<p>いま' + hinttxt[key] + 'が表示されています</p>');
+            }
+        }
+    });
 
     console.log('Loaded Main Page');
 });
+
 
 $(document).on('pageshow', '#main', function() {
 
@@ -99,3 +114,4 @@ $(document).on('pageinit', '#goal', function() {
 
     console.log('Loaded Goal Page');
 });
+
