@@ -3,7 +3,7 @@ var PRECISION = 1;
 
 $(document).on('pageinit', '#top', function() {
     $.ajax({
-        url: 'csvData/data-new1.csv', //ファイルの場所を指定
+        url: 'csvData/dummyData.csv', //ファイルの場所を指定
         type: 'get',
         dataType: 'text', //読み込む形式を指定
         // header: false, //ヘッダーの扱い
@@ -11,7 +11,7 @@ $(document).on('pageinit', '#top', function() {
     .success(function(data) {
         //csvを配列に入れる
         var csv = $.csv.toArrays(data); // ← 使ってないよね…？
-
+        console.log(csv[0][0]);
         /* 編集ここから(施設をランダム文字列にしている) */
         //csvを改行コード区切りのデータにする
         var lines = data.split(/\r\n|\r|\n/);
@@ -19,6 +19,7 @@ $(document).on('pageinit', '#top', function() {
         var random = (Math.floor(Math.random() * lines.length) + 1);
         //選ばれたデータをfactorに入れる
         var factor = lines[random];
+        // console.log(factor);
         //factorに入っているデータをカンマで区切る
         var view = factor.split(",");
 
@@ -87,7 +88,11 @@ $(document).on('pageinit', '#main', function() {
         // }
     });
     //ヒントの表示プログラム
+    $(".distance").on('click', function() {
+        App.distance = App.distance - 0.5
+    })
     $(".hintbutton").on('click', function() {
+
         var hinttxt = {//ヒントのレベル別オブジェクトを作成
             'hint1':'ヒント1',
             'hint2':'ヒント2',
@@ -98,7 +103,16 @@ $(document).on('pageinit', '#main', function() {
             if(key == $(this).attr("name")) {
                 $('#comment').html('<p>いま' + hinttxt[key] + 'が表示されています</p>');
             }
+        if(App.distance < 1){
+            $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2">
+                <p>ヒント2</p>')
+            }
+        if(App.distance < 0.5){
+            $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3">
+                <p>ヒント3</p>')
+            }
         }
+    }
     });
 
     console.log('Loaded Main Page');

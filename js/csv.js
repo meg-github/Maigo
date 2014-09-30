@@ -5,7 +5,7 @@ $(function() {
 
         //ajax形式でcsvを読み込む
         $.ajax({
-            url: 'csvData/data-new1.csv', //ファイルの場所を指定
+            url: 'csvData/dummydata.csv', //ファイルの場所を指定
             type: 'get',
             dataType: 'text', //読み込む形式を指定
             // header: false, //ヘッダーの扱い
