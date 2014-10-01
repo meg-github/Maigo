@@ -52,18 +52,18 @@ $(document).on('pageinit', '#top', function() {
 $(document).on('pageinit', '#main', function() {
     $('#random').append(App.randomString); //ランダムの文字列を入れている
     console.log(App.randomString);
+    var distance = 5.0 //距離の変数の初期値
+    // App.geoLocation.watchCurrentPosition(function(pos) {
+    //     var currentLat = pos.coords.latitude;
+    //     var currentLong = pos.coords.longitude;
 
-    App.geoLocation.watchCurrentPosition(function(pos) {
-        var currentLat = pos.coords.latitude;
-        var currentLong = pos.coords.longitude;
+    //     App.distance = App.geoLocation.getGeoDistance(App.goalLat, App.goalLong, currentLat, currentLong, PRECISION);
+    //     $('#kyori').append(App.distance);
+    //     console.log(App.distance + "km"); // 距離(km)
 
-        App.distance = App.geoLocation.getGeoDistance(App.goalLat, App.goalLong, currentLat, currentLong, PRECISION);
-        $('#kyori').append(App.distance);
-        console.log(App.distance + "km"); // 距離(km)
-
-        App.direction = App.geoLocation.getGeoDirection(App.goalLat, App.goalLong, currentLat, currentLong);
-        $('#hougaku').append(App.direction);
-        console.log(App.direction); // 方位(e.g., 北, 南)
+    //     App.direction = App.geoLocation.getGeoDirection(App.goalLat, App.goalLong, currentLat, currentLong);
+    //     $('#hougaku').append(App.direction);
+    //     console.log(App.direction); // 方位(e.g., 北, 南)
 
         // if(App.direction="北"){
         //   $('#abc').append("ほうがくううううううう");
@@ -86,12 +86,20 @@ $(document).on('pageinit', '#main', function() {
         // }else(App.direction="南西"){
         //   App.gazou="imgs/up_center.png";
         // }
-    });
+    // });
     //ヒントの表示プログラム
-    $(".distance").on('click', function() {
-        App.distance = App.distance - 0.5
-    })
-    $(".hintbutton").on('click', function() {
+    $("#distance").on('click', function() {
+        distance = distance - 0.5;
+        console.log(distance);
+        if(distance <= 3){
+            $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2"><p>ヒント2</p>');
+        }
+        if(distance <= 0.5){
+            $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3"><p>ヒント3</p>');
+        }
+    });
+
+    $(document).on('click', ".hintbutton", function() {
 
         var hinttxt = {//ヒントのレベル別オブジェクトを作成
             'hint1':'ヒント1',
@@ -103,16 +111,8 @@ $(document).on('pageinit', '#main', function() {
             if(key == $(this).attr("name")) {
                 $('#comment').html('<p>いま' + hinttxt[key] + 'が表示されています</p>');
             }
-        if(App.distance < 1){
-            $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2">
-                <p>ヒント2</p>')
-            }
-        if(App.distance < 0.5){
-            $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3">
-                <p>ヒント3</p>')
-            }
         }
-    }
+        
     });
 
     console.log('Loaded Main Page');
