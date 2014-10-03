@@ -113,3 +113,34 @@ p#kyori_tani {
 a {
 	text-align: center;
 }
+
+
+
+/*ヒントページ*/
+#hint {
+	background: url(imgs/hint.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+#jump {
+	background: url(imgs/jump.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+	width: 100%;
+	height: 100%; 
+}
+
+#goal {
+	background: url(imgs/goal_re.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+	width: 100%;
+	height: 100%; 
+}

@@ -33,24 +33,49 @@
         <div role="main" class="ui-content">
             <p id="random" style="position: relative;"></p>
             <p id="ikisaki_to">にいくよ！</p>
-            <p id="hougaku" style="position: relative;"></p>
+            <p id="ato">あと</p>
+            <p id="kyori"></p>
+            <p>km</p>
+           <!--  <p id="hougaku" style="position: relative;"></p>
             <p id="houkou_to">へ</p>
             <p id="ato">あと</p>
             <p id="kyori" style="position: relative;"></p>
-            <p id="kyori_tani">キロメートル</p>
+            <p id="kyori_tani">キロメートル</p> -->
             <center>
                 <img src="imgs/low_center.png" class="gazou">
             </center>
             <a href="#top">
                 <img src="imgs/button_back.jpg" class="modoru">
             </a>
+            <!--距離ボタンの設置-->
+            <a href="#main" id="distance">
+            	<p>500メートル近づく</p>
+            </a>
+           　<!--　ヒントボタンの設置 -->
+            <a href="#hint" class="hintbutton" name="hint1">
+            	<p>ヒント1</p>
+            </a>
+            <div id="hint2"></div>
+            <div id="hint3"></div>
+            <!-- <a href="#hint" class="hintbutton" name="hint2">
+            	<p>ヒント2</p>
+            </a>
+            <a href="#hint" class="hintbutton" name="hint3">
+            	<p>ヒント3</p>
+            </a> -->
         </div>
     </div>
 
     <!-- ヒントページ -->
     <div data-role="page" id="hint">
     	<div role="main" class="ui-conent">
-			<p>ここはヒントのページです</p>
+    		<p id="comment"></p>
+    	</div>
+    </div>
+    
+    <!--ジャンプのページ　-->
+    <div data-role="page" id="jump">
+    	<div role="main" class="ui-content">
     	</div>
     </div>
 
