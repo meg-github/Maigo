@@ -53,6 +53,7 @@ $(document).on('pageinit', '#main', function() {
     $('#random').append(App.randomString); //ランダムの文字列を入れている
     console.log(App.randomString);
     var distance = 5.0 //距離の変数の初期値
+
     // App.geoLocation.watchCurrentPosition(function(pos) {
     //     var currentLat = pos.coords.latitude;
     //     var currentLong = pos.coords.longitude;
@@ -89,14 +90,20 @@ $(document).on('pageinit', '#main', function() {
     // });
     //ヒントの表示プログラム
     $("#distance").on('click', function() {
-        distance = distance - 0.5;
+        $('#kyori').empty();
+        distance = distance - 0.5;//500mずつ近づく
+       $('#kyori').append(distance);//距離の表示
         console.log(distance);
         if(distance <= 3){
             $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2"><p>ヒント2</p>');
         }
-        if(distance <= 0.5){
+        if(distance <= 1){
             $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3"><p>ヒント3</p>');
         }
+
+        if (distance <= 0.5) {
+            window.location.href = '#jump'
+        };
     });
 
     $(document).on('click', ".hintbutton", function() {
@@ -120,8 +127,16 @@ $(document).on('pageinit', '#main', function() {
 
 
 $(document).on('pageshow', '#main', function() {
-
+ 
     console.log('Loaded Main Page');
+});
+
+$(document).on('pageinit', '#jump', function(){
+
+    $(document).on('click', "#jump", function(){
+        window.location.href = '#goal';
+    });
+        
 });
 
 $(document).on('pageinit', '#goal', function() {
