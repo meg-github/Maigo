@@ -17,7 +17,6 @@ GeoLocation.prototype.clearWatchPosition = function() {
 };
 
 GeoLocation.prototype.getGeoDistance = function(lat1, lng1, lat2, lng2, precision) {
-    $('#kyori').empty();
     var distance = 0;
     if ((Math.abs(lat1 - lat2) < 0.00001) && (Math.abs(lng1 - lng2) < 0.00001)) {
         distance = 0;
@@ -45,7 +44,6 @@ GeoLocation.prototype.getGeoDistance = function(lat1, lng1, lat2, lng2, precisio
 };
 
 GeoLocation.prototype.getGeoDirection = function(lat1, lng1, lat2, lng2) {
-    $('#hougaku').empty();
     // 緯度経度 lat1, lng1 の点を出発として、緯度経度 lat2, lng2 への方位
     // 北を０度で右回りの角度０～３６０度
     var Y = Math.cos(lng2 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180 - lat1 * Math.PI / 180);
