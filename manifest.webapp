@@ -1,7 +1,10 @@
 {
-  "version": "2.0",
-  "name": "冒険ウィル",
-  "description": "冒険ウィル App.",
-  "launch_path": "/index.html",
-  "default_locale": "ja"
+    "version": "2.0",
+    "name": "冒険ウィル",
+    "description": "冒険ウィル App.",
+    "launch_path": "/index.html",
+    "icons": {
+      "128": "/imgs/icon.png"
+    },
+    "default_locale": "ja"
 }
