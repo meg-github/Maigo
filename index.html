@@ -44,39 +44,34 @@
             <center>
                 <img src="imgs/low_center.png" class="gazou">
             </center>
-            <a href="#top">
-                <img src="imgs/button_back.jpg" class="modoru">
-            </a>
             <!--距離ボタンの設置-->
             <a href="#main" id="distance">
             	<p>500メートル近づく</p>
             </a>
-           　<!--　ヒントボタンの設置 -->
-            <a href="#hint" class="hintbutton" name="hint1">
-            	<p>ヒント1</p>
-            </a>
-            <div id="hint2"></div>
-            <div id="hint3"></div>
-            <!-- <a href="#hint" class="hintbutton" name="hint2">
-            	<p>ヒント2</p>
-            </a>
-            <a href="#hint" class="hintbutton" name="hint3">
-            	<p>ヒント3</p>
-            </a> -->
+            <!-- ヒントボタンの設置 -->
+            <div style="text-align: center; padding-bottom: 20px;">
+                <span><a href="#hint" class="hintbutton" name="hint1">ヒント1</a></span>
+                <span style="padding-right: 10px; padding-left: 10px;" id="hint2"></span>
+                <span id="hint3"></span>
+            </div>
+
+            <a href="#top"><img src="imgs/button_back.jpg" class="modoru" style="height: 80px;"></a>
         </div>
     </div>
 
     <!-- ヒントページ -->
     <div data-role="page" id="hint">
     	<div role="main" class="ui-conent">
-    		<p id="comment"></p>
+    		<p id="comment" style="padding-top: 150px;"></p>
     	</div>
+        <a href="#main"><img src="imgs/button_back.jpg" style="position: absolute; top:450px; left: 10px; height: 50px;"></a>
     </div>
-    
-    <!--ジャンプのページ　-->
+
+    <!--ジャンプのページ -->
     <div data-role="page" id="jump">
     	<div role="main" class="ui-content">
     	</div>
+        <a href="#main"><img src="imgs/button_back.jpg" style="position: absolute; top:480px; left: 100px; height: 50px;"></a>
     </div>
 
     <!-- ゴールページ -->
@@ -87,6 +82,7 @@
             <h1>
                 <img src="imgs/goal.png">
             </h1>
+            <a href="#top"><img src="imgs/button_back.jpg" style="position: absolute; top:480px; left: 100px; height: 50px;"></a>
         </div>
     </div>
 
