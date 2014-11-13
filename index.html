@@ -36,7 +36,7 @@
             <p id="ato">あと</p>
             <p id="kyori"></p>
             <p>km</p>
-           <!--  <p id="hougaku" style="position: relative;"></p>
+            <!--  <p id="hougaku" style="position: relative;"></p>
             <p id="houkou_to">へ</p>
             <p id="ato">あと</p>
             <p id="kyori" style="position: relative;"></p>
@@ -45,33 +45,45 @@
                 <img src="imgs/low_center.png" class="gazou">
             </center>
             <!--距離ボタンの設置-->
-            <a href="#main" id="distance">
-            	<p>500メートル近づく</p>
-            </a>
+            <center>
+                <a href="#main" id="distance">
+                    <img src="imgs/500m.png" height="30" width="100">
+                </a>
+            </center>
             <!-- ヒントボタンの設置 -->
-            <div style="text-align: center; padding-bottom: 20px;">
-                <span><a href="#hint" class="hintbutton" name="hint1">ヒント1</a></span>
+            <div style="text-align: center; padding-top: 20px; padding-bottom: 20px;">
+                <span>
+                    <a href="#hint" class="hintbutton" name="hint1">
+                        <img src="imgs/hint1.png" alt="" width="80">
+                    </a>
+                </span>
                 <span style="padding-right: 10px; padding-left: 10px;" id="hint2"></span>
                 <span id="hint3"></span>
             </div>
 
-            <a href="#top"><img src="imgs/button_back.jpg" class="modoru" style="height: 80px;"></a>
+            <a href="#top">
+                <img src="imgs/button_back.jpg" class="modoru" style="height: 60px;">
+            </a>
         </div>
     </div>
 
     <!-- ヒントページ -->
     <div data-role="page" id="hint">
-    	<div role="main" class="ui-conent">
-    		<p id="comment" style="padding-top: 150px;"></p>
-    	</div>
-        <a href="#main"><img src="imgs/button_back.jpg" style="position: absolute; top:450px; left: 10px; height: 50px;"></a>
+        <div role="main" class="ui-conent">
+            <p id="level" style="padding-left: 200px; pading-top: 100px; font-size: 50px;"></p>
+            <p id="comment" style="padding-top: 40px;"></p>
+        </div>
+        <a href="#main">
+            <img src="imgs/button_back.jpg" style="position: absolute; top:450px; left: 10px; height: 50px;">
+        </a>
     </div>
 
     <!--ジャンプのページ -->
     <div data-role="page" id="jump">
-    	<div role="main" class="ui-content">
-    	</div>
-        <a href="#main"><img src="imgs/button_back.jpg" style="position: absolute; top:480px; left: 100px; height: 50px;"></a>
+        <div role="main" class="ui-content">
+        </div>
+        <a href="#main">
+        </a>
     </div>
 
     <!-- ゴールページ -->
@@ -82,7 +94,13 @@
             <h1>
                 <img src="imgs/goal.png">
             </h1>
-            <a href="#top"><img src="imgs/button_back.jpg" style="position: absolute; top:480px; left: 100px; height: 50px;"></a>
+
+            <div style="margin-top: 230px; padding-top: 5px; width: 280px; height: 100px; overflow: scroll;" id="description">
+
+            </div>
+            <a href="#top">
+                <img src="imgs/button_back.jpg" style="position: absolute; top:480px; left: 100px; height: 50px;">
+            </a>
         </div>
     </div>
 

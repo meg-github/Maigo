@@ -49,11 +49,12 @@ $(document).on('pageshow', '#main', function() {
         App.distance = App.distance - 0.5; //500mずつ近づく
         $('#kyori').append(App.distance); //距離の表示
 
+
         if (App.distance <= 2) {
-            $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2">ヒント2</a>');
+            $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
         }
         if (App.distance <= 1) {
-            $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3">ヒント3</a>');
+            $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3"><img src="imgs/hint3.png" alt="" width="80"></a>');
         }
 
         if (App.distance <= 0.5) {
@@ -62,7 +63,7 @@ $(document).on('pageshow', '#main', function() {
     });
 
     $(document).on('click', ".hintbutton", function() {
-
+        var count = 1;
         var hinttxt = { //ヒントのレベル別オブジェクトを作成
             'hint1': App.csv[App.homeNum][5],
             'hint2': App.csv[App.homeNum][6],
@@ -71,7 +72,10 @@ $(document).on('pageshow', '#main', function() {
 
         for (var key in hinttxt) {
             if (key == $(this).attr("name")) {
+                $('#level').html(count);
                 $('#comment').html('<p>' + hinttxt[key] + '</p>');
+            } else {
+                count++;
             }
         }
     });
@@ -87,6 +91,13 @@ $(document).on('pageinit', '#jump', function() {
 });
 
 $(document).on('pageinit', '#goal', function() {
+    // $('#description').empty();
+    // $('#description').append('<p>' + App.csv[App.homeNum][4] + '</p>');
+    console.log('Loaded Goal Page');
+});
 
+$(document).on('pageshow', '#goal', function() {
+    $('#description').empty();
+    $('#description').append('<p>' + App.csv[App.homeNum][4] + '</p>');
     console.log('Loaded Goal Page');
 });
