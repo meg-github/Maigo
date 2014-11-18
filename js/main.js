@@ -7,28 +7,35 @@ $(document).on('pageinit', '#top', function() {
 
 $(document).on('pageshow', '#top', function() {
     $.ajax({
-            url: 'csvData/dummyData.csv', //ファイルの場所を指定
-            type: 'get',
-            dataType: 'text', //読み込む形式を指定
-            // header: false, //ヘッダーの扱い
+            url: 'csvData/dummyData.csv', // TODO: ファイルの変更
+            type: 'GET',
+            dataType: 'text', // TODO: json の予定
         })
         .success(function(data) {
-            var currentLat = 34.701909;
-            var currentLong = 135.494977;
+            var currentLat = 34.701909; // TODO: 現在地取得
+            var currentLong = 135.494977; // TODO: 現在地取得
 
-            App.csv = $.csv.toArrays(data);
+            App.csv = $.csv.toArrays(data); // TODO; 削除
             App.homeNum = (Math.floor(Math.random() * (App.csv.length - 1)) + 1);
             App.geoLocation = new GeoLocation();
-            App.distance = Math.floor(App.geoLocation.getGeoDistance(App.csv[App.homeNum][1], App.csv[App.homeNum][0], currentLat, currentLong, PRECISION));
-            console.log(App.distance);
+            App.distance = Math.floor(App.geoLocation.getGeoDistance( // 距離
+                App.csv[App.homeNum][1], App.csv[App.homeNum][0],
+                currentLat, currentLong, PRECISION
+            ));
+            App.direction = App.geoLocation.getGeoDirection( // 方向
+                currentLat, currentLong,
+                App.csv[App.homeNum][1], App.csv[App.homeNum][0]
+            );
 
-            $('#kyori').empty();
-            $('#kyori').append(App.distance);
-            $('#hint2').empty();
-            $('#hint3').empty();
+            $('#main').find('span[name="direct"]').html(App.direction);
+            $('#main').find('span[name="dist"]').html(App.distance);
 
             console.log('Loaded Top Page');
+        })
+        .error(function() {
+            alert('問題が発生しました．やり直してください');
         });
+
     console.log('Initialize Top Page');
 });
 
@@ -39,17 +46,17 @@ $(document).on('pageinit', '#main', function() {
 
 
 $(document).on('pageshow', '#main', function() {
-    $('#distance').off('click');
-    $('.hintbutton').off('click');
+    // $('#distance').off('click');
+    // $('.hintbutton').off('click');
 
-    //ヒントの表示プログラム
+    /* TODO: クリックではなく，一定間隔で現在地を取得 */
     $("#distance").on('click', function() {
-        console.log('click');
-        $('#kyori').empty();
-        App.distance = App.distance - 0.5; //500mずつ近づく
-        $('#kyori').append(App.distance); //距離の表示
+        // $('#kyori').empty();
+        // App.distance = App.distance - 0.5; //500mずつ近づく
+        // $('#kyori').append(App.distance); //距離の表示
 
 
+        /* キロではなくメートルで */
         if (App.distance <= 2) {
             $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
         }
@@ -62,6 +69,7 @@ $(document).on('pageshow', '#main', function() {
         }
     });
 
+    /* TODO: 細かい修正が必要 */
     $(document).on('click', ".hintbutton", function() {
         var count = 1;
         var hinttxt = { //ヒントのレベル別オブジェクトを作成
@@ -84,20 +92,17 @@ $(document).on('pageshow', '#main', function() {
 });
 
 $(document).on('pageinit', '#jump', function() {
-
     $(document).on('click', "#jump", function() {
         window.location.href = '#goal';
     });
 });
 
 $(document).on('pageinit', '#goal', function() {
-    // $('#description').empty();
-    // $('#description').append('<p>' + App.csv[App.homeNum][4] + '</p>');
+
     console.log('Loaded Goal Page');
 });
 
 $(document).on('pageshow', '#goal', function() {
-    $('#description').empty();
-    $('#description').append('<p>' + App.csv[App.homeNum][4] + '</p>');
+    $(this).find('div[name="description"]').html('<p>' + App.csv[App.homeNum][4] + '</p>');
     console.log('Loaded Goal Page');
 });
