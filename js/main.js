@@ -9,6 +9,7 @@ $(document).on('pageinit', '#top', function() {
         })
         .success(function(data) {
             App.kyoto = data;
+            App.homeNum = Math.floor(Math.random() * (App.kyoto.length - 1));
             console.log('Loaded JSON Data');
         })
         .error(function() {
@@ -23,37 +24,43 @@ $(document).on('pageshow', '#top', function() {
 });
 
 $(document).on('pageinit', '#main', function() {
+    function setGoal() {
+        if (typeof App.geoClient !== 'undefined') {
+            App.geoClient.clearWatchPosition();
+        } else {
+            App.geoClient = new GeoLocation();
+        }
+
+        App.geoClient.watchCurrentPosition(function(pos) {
+            var currentLat = pos.coords.latitude;
+            var currentLong = pos.coords.longitude;
+
+            var distance = Math.floor(App.geoClient.getGeoDistance( // 距離
+                App.kyoto[App.homeNum]['X'], App.kyoto[App.homeNum]['Y'],
+                currentLat, currentLong, PRECISION
+            ));
+            var direction = App.geoClient.getGeoDirection( // 方向
+                currentLat, currentLong,
+                App.kyoto[App.homeNum]['X'], App.kyoto[App.homeNum]['Y']
+            );
+
+            $('div[name="destinationInfo"]').find('span[name="direct"]').html(direction);
+            $('div[name="destinationInfo"]').find('span[name="dist"]').html(distance);
+        });
+    }
+    setGoal();
+
+    $('#main img[name="research"]').on('click', function() {
+        App.homeNum = Math.floor(Math.random() * (App.kyoto.length - 1));
+        setGoal();
+        console.log(App.homeNum);
+    });
 
     console.log('Loaded Main Page');
 });
 
 
 $(document).on('pageshow', '#main', function() {
-    var currentLat = 34.701909; // TODO: 現在地取得
-    var currentLong = 135.494977; // TODO: 現在地取得
-
-    // App.homeNum = (Math.floor(Math.random() * (App.kyoto.length - 1)) + 1);
-    var geoLocation = new GeoLocation();
-    geoLocation.watchCurrentPosition(function(pos) {
-        currentLat = pos.coords.latitude;
-        currentLong = pos.coords.longitude;
-
-        var distance = Math.floor(geoLocation.getGeoDistance( // 距離
-            App.kyoto[0]['X'], App.kyoto[0]['Y'],
-            currentLat, currentLong, PRECISION
-        ));
-        var direction = geoLocation.getGeoDirection( // 方向
-            currentLat, currentLong,
-            App.kyoto[0]['X'], App.kyoto[0]['Y']
-        );
-
-        $('div[name="destinationInfo"]').find('span[name="direct"]').html(direction);
-        $('div[name="destinationInfo"]').find('span[name="dist"]').html(distance);
-    });
-
-    // $('#distance').off('click');
-    // $('.hintbutton').off('click');
-
     /* TODO: クリックではなく，一定間隔で現在地を取得 */
     $("#distance").on('click', function() {
         // $('#kyori').empty();
