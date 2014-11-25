@@ -128,4 +128,10 @@ $(document).on('pageinit', '#footprints', function() {
     }
     $(this).find('ul').listview('refresh');
     $(this).find('span[name="rate"]').text(App.goalCount); // Math.floor(App.goalCount / App.kyoto.length * 100)
+
+    $(document).on('click', '#footprints ul li', function() {
+        var currentPlace = $(this).attr('name').split('place')[1] - 0;
+        $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="150">'); // TODO: App.kyotoの画像パスに変更
+        $('#detailFootprint div[name="description"]').html('<p>' + App.kyoto[currentPlace]['説明文'] + '</p>');
+    });
 });
