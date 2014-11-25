@@ -6,5 +6,10 @@
     "icons": {
       "128": "/imgs/icon.png"
     },
-    "default_locale": "ja"
+    "default_locale": "ja",
+    "permissions": {
+        "camera": {
+            "description": "Required for accessing cameras on the device."
+        }
+    }
 }
