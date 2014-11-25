@@ -2,41 +2,24 @@ var App = {};
 var PRECISION = 1;
 
 $(document).on('pageinit', '#top', function() {
-
-});
-
-$(document).on('pageshow', '#top', function() {
     $.ajax({
-            url: 'csvData/dummyData.csv', // TODO: ファイルの変更
+            url: 'csvData/kyoto.json',
             type: 'GET',
-            dataType: 'text', // TODO: json の予定
+            dataType: 'json'
         })
         .success(function(data) {
-            var currentLat = 34.701909; // TODO: 現在地取得
-            var currentLong = 135.494977; // TODO: 現在地取得
-
-            App.csv = $.csv.toArrays(data); // TODO; 削除
-            App.homeNum = (Math.floor(Math.random() * (App.csv.length - 1)) + 1);
-            App.geoLocation = new GeoLocation();
-            App.distance = Math.floor(App.geoLocation.getGeoDistance( // 距離
-                App.csv[App.homeNum][1], App.csv[App.homeNum][0],
-                currentLat, currentLong, PRECISION
-            ));
-            App.direction = App.geoLocation.getGeoDirection( // 方向
-                currentLat, currentLong,
-                App.csv[App.homeNum][1], App.csv[App.homeNum][0]
-            );
-
-            $('#main').find('span[name="direct"]').html(App.direction);
-            $('#main').find('span[name="dist"]').html(App.distance);
-
-            console.log('Loaded Top Page');
+            App.kyoto = data;
+            console.log('Loaded JSON Data');
         })
         .error(function() {
             alert('問題が発生しました．やり直してください');
         });
 
     console.log('Initialize Top Page');
+});
+
+$(document).on('pageshow', '#top', function() {
+
 });
 
 $(document).on('pageinit', '#main', function() {
@@ -46,6 +29,28 @@ $(document).on('pageinit', '#main', function() {
 
 
 $(document).on('pageshow', '#main', function() {
+    var currentLat = 34.701909; // TODO: 現在地取得
+    var currentLong = 135.494977; // TODO: 現在地取得
+
+    // App.homeNum = (Math.floor(Math.random() * (App.kyoto.length - 1)) + 1);
+    var geoLocation = new GeoLocation();
+    geoLocation.watchCurrentPosition(function(pos) {
+        currentLat = pos.coords.latitude;
+        currentLong = pos.coords.longitude;
+
+        var distance = Math.floor(geoLocation.getGeoDistance( // 距離
+            App.kyoto[0]['X'], App.kyoto[0]['Y'],
+            currentLat, currentLong, PRECISION
+        ));
+        var direction = geoLocation.getGeoDirection( // 方向
+            currentLat, currentLong,
+            App.kyoto[0]['X'], App.kyoto[0]['Y']
+        );
+
+        $('div[name="destinationInfo"]').find('span[name="direct"]').html(direction);
+        $('div[name="destinationInfo"]').find('span[name="dist"]').html(distance);
+    });
+
     // $('#distance').off('click');
     // $('.hintbutton').off('click');
 
