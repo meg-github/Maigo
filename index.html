@@ -34,8 +34,8 @@
         <div role="main" class="ui-content">
             <!-- 目的地に関する情報提示 -->
             <div name="destinationInfo">
-                <p><span name="direct">北</span>へ</p>
-                <p>あと<span name="dist">500</span>m</p>
+                <p><span name="direct"></span>へ</p>
+                <p>あと<span name="dist"></span>m</p>
                 <img src="imgs/low_center.png">
             </div>
 
@@ -48,9 +48,17 @@
 
             <!-- 再検索ボタン -->
             <div name="researchButton">
-                <a href="#top">
-                    <img src="imgs/button_back.jpg" height="80px">
-                </a>
+                <a href="#confirmDialog" data-rel="popup" data-position-to="window" data-transition="pop"><img src="imgs/button_back.jpg" name="research" height="80px"></a>
+            </div>
+
+            <div data-role="popup" id="confirmDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width: 300px;">
+                <div data-role="header" data-theme="a">
+                    <h1>目的地の変更</h1>
+                </div>
+                <div role="main" class="ui-content">
+                    <h3>目的地の変更が正常に行われました．</h3>
+                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b" data-rel="back">OK</a>
+                </div>
             </div>
         </div>
     </div>
