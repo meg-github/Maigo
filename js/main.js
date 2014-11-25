@@ -11,6 +11,7 @@ $(document).on('pageinit', '#top', function() {
             App.kyoto = data;
             App.homeNum = Math.floor(Math.random() * (App.kyoto.length - 1));
             console.log('Loaded JSON Data');
+            console.log(data);
         })
         .error(function() {
             alert('問題が発生しました．やり直してください');
@@ -27,6 +28,8 @@ $(document).on('pageinit', '#main', function() {
     function setGoal() {
         if (typeof App.geoClient !== 'undefined') {
             App.geoClient.clearWatchPosition();
+            $('#main li[name="hint2"]').html('');
+            $('#main li[name="hint3"]').html('');
         } else {
             App.geoClient = new GeoLocation();
         }
@@ -44,6 +47,17 @@ $(document).on('pageinit', '#main', function() {
                 App.kyoto[App.homeNum]['X'], App.kyoto[App.homeNum]['Y']
             );
 
+            if (distance <= 2000) {
+                $('#main li[name="hint2"]').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
+            }
+            if (distance <= 1000) {
+                $('#main li[name="hint3"]').html('<a href="#hint" class="hintbutton" name="hint3"><img src="imgs/hint3.png" alt="" width="80"></a>');
+            }
+
+            if (App.distance <= 500) {
+                window.location.href = '#jump';
+            }
+
             $('div[name="destinationInfo"]').find('span[name="direct"]').html(direction);
             $('div[name="destinationInfo"]').find('span[name="dist"]').html(distance);
         });
@@ -56,49 +70,29 @@ $(document).on('pageinit', '#main', function() {
         console.log(App.homeNum);
     });
 
-    console.log('Loaded Main Page');
-});
-
-
-$(document).on('pageshow', '#main', function() {
-    /* TODO: クリックではなく，一定間隔で現在地を取得 */
-    $("#distance").on('click', function() {
-        // $('#kyori').empty();
-        // App.distance = App.distance - 0.5; //500mずつ近づく
-        // $('#kyori').append(App.distance); //距離の表示
-
-
-        /* キロではなくメートルで */
-        if (App.distance <= 2) {
-            $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
-        }
-        if (App.distance <= 1) {
-            $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3"><img src="imgs/hint3.png" alt="" width="80"></a>');
-        }
-
-        if (App.distance <= 0.5) {
-            window.location.href = '#jump';
-        }
-    });
-
-    /* TODO: 細かい修正が必要 */
     $(document).on('click', ".hintbutton", function() {
         var count = 1;
         var hinttxt = { //ヒントのレベル別オブジェクトを作成
-            'hint1': App.csv[App.homeNum][5],
-            'hint2': App.csv[App.homeNum][6],
-            'hint3': App.csv[App.homeNum][7]
+            'hint1': App.kyoto[App.homeNum]['ヒント1'],
+            'hint2': App.kyoto[App.homeNum]['ヒント2'],
+            'hint3': App.kyoto[App.homeNum]['ヒント3']
         };
 
         for (var key in hinttxt) {
             if (key == $(this).attr("name")) {
-                $('#level').html(count);
-                $('#comment').html('<p>' + hinttxt[key] + '</p>');
+                $('#hint p[name="hint"]').text('ヒント' + count);
+                $('#hint div[name="description"]').html('<p>' + hinttxt[key] + '</p>');
             } else {
                 count++;
             }
         }
     });
+
+    console.log('Loaded Main Page');
+});
+
+
+$(document).on('pageshow', '#main', function() {
 
     console.log('Loaded Main Page');
 });
