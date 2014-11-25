@@ -41,9 +41,9 @@
 
             <!-- ヒントのリスト -->
             <ul name="hintList">
-                <li><a href="#hint"><img src="imgs/hint1.png" alt="ヒント1" ></a></li>
-                <li><a href="#jump"><img src="imgs/hint2.png" alt="ヒント2" ></a></li>
-                <li><a href="#"><img src="imgs/hint3.png" alt="ヒント3" ></a></li>
+                <li name="hint1"><a href="#hint" class="hintbutton" name="hint1"><img src="imgs/hint1.png" alt="ヒント1" ></a></li>
+                <li name="hint2"><a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="ヒント2" ></a></li>
+                <li name="hint3"><a href="#hint" class="hintbutton" name="hint3"><img src="imgs/hint3.png" alt="ヒント3" ></a></li>
             </ul>
 
             <!-- 再検索ボタン -->
@@ -66,7 +66,7 @@
     <!-- ヒントページ -->
     <div data-role="page" id="hint">
         <div role="main" class="ui-conent">
-            <p style="font-size: 300%; text-align: center;">ヒント1</p><!-- TODO: 画像に変更 -->
+            <p style="font-size: 300%; text-align: center;" name="hint">ヒント1</p><!-- TODO: 画像に変更 -->
 
             <!-- ヒントの説明文 -->
             <div name="description">
