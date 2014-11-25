@@ -47,6 +47,7 @@ $(document).on('pageinit', '#main', function() {
                 App.kyoto[App.homeNum]['X'], App.kyoto[App.homeNum]['Y']
             );
 
+            /* TODO: このままでは条件を満たす度に毎回生成されるので対策を考える */
             if (distance <= 2000) {
                 $('#main li[name="hint2"]').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
             }
@@ -55,6 +56,7 @@ $(document).on('pageinit', '#main', function() {
             }
 
             if (App.distance <= 500) {
+                App.geoClient.clearWatchPosition();
                 window.location.href = '#jump';
             }
 
@@ -109,6 +111,7 @@ $(document).on('pageinit', '#goal', function() {
 });
 
 $(document).on('pageshow', '#goal', function() {
-    $(this).find('div[name="description"]').html('<p>' + App.csv[App.homeNum][4] + '</p>');
+    $(this).find('div[name="placeImg"]').html('<img src="imgs/01.jpg" width="210px" height="267px">'); // TODO: App.kyotoの画像パスに変更
+    $(this).find('div[name="description"]').html('<p>' + App.kyoto[App.homeNum]['説明文'] + '</p>');
     console.log('Loaded Goal Page');
 });
