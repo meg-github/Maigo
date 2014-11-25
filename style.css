@@ -111,10 +111,15 @@ ul {
     background-size: 100% 100%;
 }
 
+#goal div[name="placeImg"] {
+    margin-top: 90px;
+    margin-left: 4px;
+}
+
 #goal div[name='description'] {
     width: 80%;
     height: 160px;
-    margin-top: 430px;
+    margin-top: 70px;
     margin-right: auto;
     margin-left: auto;
 
