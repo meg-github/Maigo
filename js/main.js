@@ -115,3 +115,17 @@ $(document).on('pageshow', '#goal', function() {
     $(this).find('div[name="description"]').html('<p>' + App.kyoto[App.homeNum]['説明文'] + '</p>');
     console.log('Loaded Goal Page');
 });
+
+$(document).on('pageinit', '#footprints', function() {
+    App.goalCount = 0;
+    for (var i = 0; i < App.kyoto.length; i++) {
+        var template = '<li name="place' + i + '">' +
+            '<a href="#detailFootprint">' +
+            '<img src="imgs/camera.jpg">' + // TODO: 画像パスに変える
+            '<h2>' + App.kyoto[i]['施設名'] + '</h2>' +
+            '</a></li>';
+        $(this).find('ul').append(template);
+    }
+    $(this).find('ul').listview('refresh');
+    $(this).find('span[name="rate"]').text(App.goalCount); // Math.floor(App.goalCount / App.kyoto.length * 100)
+});
