@@ -129,7 +129,7 @@ $(document).on('pageinit', '#jump', function() {
 });
 
 $(document).on('pageinit', '#goal', function() {
-    $('#titleDialog a[href="#detailFootprint"]').on('click', function() {
+    $('#titleDialog a[href="#footprints"]').on('click', function() {
         var activity = new MozActivity({
             name: 'pick',
             data: {
@@ -140,6 +140,7 @@ $(document).on('pageinit', '#goal', function() {
         activity.onsuccess = function() {
             console.log('SUCCESS(activity): ', this.result);
             var imgSrc = window.URL.createObjectURL(this.result.blob);
+            App.arriveGoals[App.arriveGoals.length - 1]['photo'] = imgSrc;
             $('#detailFootprint div[name="placeImg"]').html('<img src="' + imgSrc + '" height="120">');
         };
 
@@ -165,9 +166,16 @@ $(document).on('pageinit', '#footprints', function() {
 
         for (var i = 0; i < App.arriveGoals.length; i++) {
             if (App.currentPlace == App.arriveGoals[i]['num']) {
-                $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="120">');
+
+                if (App.arriveGoals[App.arriveGoals.length - 1]['photo'] !== '') {
+                    $('#detailFootprint div[name="placeImg"]')
+                        .html('<img src="' + App.arriveGoals[i]['photo'] + '" alt="カメラ" height="120">');
+                } else {
+                    $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="120">');
+                }
                 $('#detailFootprint div[name="description"]').html('<p>' + App.kyoto[App.currentPlace]['説明文'] + '</p>');
                 $('#detailFootprint div[name="comment"]').html('<p>' + App.arriveGoals[i]['comment'] + '</p>');
+
                 break;
             }
         }
@@ -180,9 +188,33 @@ $(document).on('pageshow', '#footprints', function() {
 });
 
 $(document).on('pageinit', '#detailFootprint', function() {
+    $('#detailFootprint div[name="placeImg"]').on('click', function() {
+        var activity = new MozActivity({
+            name: 'pick',
+            data: {
+                type: 'image/jpeg'
+            }
+        });
+
+        activity.onsuccess = function() {
+            console.log('SUCCESS(activity): ', this.result);
+            var imgSrc = window.URL.createObjectURL(this.result.blob);
+
+            for (var i = 0; i < App.arriveGoals.length; i++) {
+                if (App.currentPlace == App.arriveGoals[i]['num']) {
+                    App.arriveGoals[i]['photo'] = imgSrc;
+                    $('#detailFootprint div[name="placeImg"]').html('<img src="' + imgSrc + '" height="120">');
+                    break;
+                }
+            }
+        };
+
+        activity.onerror = function() {
+            console.error('ERROR(activity):', this.error);
+        };
+    });
 
     $('#commentDialog a[name="writeComment"]').on('click', function() {
-        $('#commentDialog textarea').val('');
         for (var i = 0; i < App.arriveGoals.length; i++) {
             if (App.currentPlace == App.arriveGoals[i]['num']) {
                 App.arriveGoals[i]['comment'] = $('#commentDialog textarea').val();
@@ -190,5 +222,6 @@ $(document).on('pageinit', '#detailFootprint', function() {
                 break;
             }
         }
+        $('#commentDialog textarea').val('');
     });
 });
