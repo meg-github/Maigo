@@ -8,6 +8,7 @@ $(document).on('pageinit', '#top', function() {
             dataType: 'json'
         })
         .success(function(data) {
+            App.goalCount = 0;
             App.kyoto = data;
             App.homeNum = Math.floor(Math.random() * (App.kyoto.length - 1));
             console.log('Loaded JSON Data');
@@ -100,6 +101,7 @@ $(document).on('pageshow', '#main', function() {
 
 $(document).on('pageinit', '#jump', function() {
     $(document).on('click', "#jump", function() {
+        if (App.goalCount <= App.kyoto.length) App.goalCount++;
         window.location.href = '#goal';
     });
 });
@@ -134,7 +136,6 @@ $(document).on('pageshow', '#goal', function() {
 });
 
 $(document).on('pageinit', '#footprints', function() {
-    App.goalCount = 0;
     for (var i = 0; i < App.kyoto.length; i++) {
         var template = '<li name="place' + i + '">' +
             '<a href="#detailFootprint">' +
@@ -144,13 +145,16 @@ $(document).on('pageinit', '#footprints', function() {
         $(this).find('ul').append(template);
     }
     $(this).find('ul').listview('refresh');
-    $(this).find('span[name="rate"]').text(App.goalCount); // Math.floor(App.goalCount / App.kyoto.length * 100)
 
     $(document).on('click', '#footprints ul li', function() {
         var currentPlace = $(this).attr('name').split('place')[1] - 0;
         $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="120">'); // TODO: App.kyotoの画像パスに変更
         $('#detailFootprint div[name="description"]').html('<p>' + App.kyoto[currentPlace]['説明文'] + '</p>');
     });
+});
+
+$(document).on('pageshow', '#footprints', function() {
+    $(this).find('span[name="rate"]').text(Math.floor(App.goalCount / App.kyoto.length * 100));
 });
 
 $(document).on('pageinit', '#detailFootprint', function() {
