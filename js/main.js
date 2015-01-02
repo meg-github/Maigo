@@ -116,10 +116,11 @@ $(document).on('pageinit', '#goal', function() {
             console.log('SUCCESS(activity): ', this.result);
             var imgSrc = window.URL.createObjectURL(this.result.blob);
             $('#detailFootprint div[name="placeImg"]').html('<img src="' + imgSrc + '" height="120">');
-        }
+        };
+
         activity.onerror = function() {
             console.error('ERROR(activity):', this.error);
-        }
+        };
     });
 
     console.log('Loaded Goal Page');
