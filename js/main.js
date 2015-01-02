@@ -31,7 +31,7 @@ $(document).on('pageinit', '#main', function() {
         App.homeNum = Math.floor(Math.random() * App.kyoto.length);
 
         for (var i = 0; i < App.arriveGoals.length; i++) {
-            if (App.homeNum == App.arriveGoals[i]) {
+            if (App.homeNum == App.arriveGoals[i]['num']) {
                 App.homeNum = Math.floor(Math.random() * App.kyoto.length);
                 i = -1;
             }
@@ -118,7 +118,11 @@ $(document).on('pageinit', '#jump', function() {
             '</a></li>';
         $('#footprints').find('ul').append(template);
 
-        App.arriveGoals.push(App.homeNum);
+        App.arriveGoals.push({
+            'num': App.homeNum,
+            'comment': '',
+            'photo': ''
+        });
 
         window.location.href = '#goal';
     });
@@ -155,20 +159,18 @@ $(document).on('pageshow', '#goal', function() {
 });
 
 $(document).on('pageinit', '#footprints', function() {
-    // for (var i = 0; i < App.goalCount; i++) {
-    //     var template = '<li name="place' + i + '">' +
-    //         '<a href="#detailFootprint">' +
-    //         '<img src="imgs/camera.jpg">' + // TODO: 画像パスに変える
-    //         '<h2>' + App.kyoto[i]['施設名'] + '</h2>' +
-    //         '</a></li>';
-    //     $(this).find('ul').append(template);
-    // }
-    // $(this).find('ul').listview('refresh');
 
     $(document).on('click', '#footprints ul li', function() {
-        var currentPlace = $(this).attr('name').split('place')[1] - 0;
-        $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="120">'); // TODO: App.kyotoの画像パスに変更
-        $('#detailFootprint div[name="description"]').html('<p>' + App.kyoto[currentPlace]['説明文'] + '</p>');
+        App.currentPlace = $(this).attr('name').split('place')[1] - 0;
+
+        for (var i = 0; i < App.arriveGoals.length; i++) {
+            if (App.currentPlace == App.arriveGoals[i]['num']) {
+                $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="120">');
+                $('#detailFootprint div[name="description"]').html('<p>' + App.kyoto[App.currentPlace]['説明文'] + '</p>');
+                $('#detailFootprint div[name="comment"]').html('<p>' + App.arriveGoals[i]['comment'] + '</p>');
+                break;
+            }
+        }
     });
 });
 
@@ -178,8 +180,15 @@ $(document).on('pageshow', '#footprints', function() {
 });
 
 $(document).on('pageinit', '#detailFootprint', function() {
-    $('#commentDialog a').on('click', function() {
-        var comment = $('#commentDialog textarea').val();
-        $('#detailFootprint div[name="comment"]').html('<p>' + comment + '</p>');
+
+    $('#commentDialog a[name="writeComment"]').on('click', function() {
+        $('#commentDialog textarea').val('');
+        for (var i = 0; i < App.arriveGoals.length; i++) {
+            if (App.currentPlace == App.arriveGoals[i]['num']) {
+                App.arriveGoals[i]['comment'] = $('#commentDialog textarea').val();
+                $('#detailFootprint div[name="comment"]').html('<p>' + App.arriveGoals[i]['comment'] + '</p>');
+                break;
+            }
+        }
     });
 });
