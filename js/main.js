@@ -26,7 +26,7 @@ $(document).on('pageshow', '#top', function() {
 });
 
 $(document).on('pageinit', '#main', function() {
-    function setGoal() {
+    App.setGoal = function() {
         if (typeof App.geoClient !== 'undefined') {
             App.geoClient.clearWatchPosition();
             $('#main li[name="hint2"]').css('visibility', 'hidden');
@@ -62,12 +62,13 @@ $(document).on('pageinit', '#main', function() {
             $('div[name="destinationInfo"]').find('span[name="direct"]').html(direction);
             $('div[name="destinationInfo"]').find('span[name="dist"]').html(distance);
         });
-    }
-    setGoal();
+    };
+    App.setGoal();
 
-    $('#main img[name="research"]').on('click', function() {
+    $('#main img[name="research"], #top div[name="startButton"]').on('click', function() {
+        App.geoClient.clearWatchPosition();
         App.homeNum = Math.floor(Math.random() * (App.kyoto.length - 1));
-        setGoal();
+        App.setGoal();
         console.log(App.homeNum);
     });
 
