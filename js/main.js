@@ -8,14 +8,14 @@ $(document).on('pageinit', '#top', function() {
             dataType: 'json'
         })
         .success(function(data) {
-            App.goalCount = 0;
             App.kyoto = data;
-            App.homeNum = Math.floor(Math.random() * (App.kyoto.length - 1));
+            App.arriveGoals = [];
+
             console.log('Loaded JSON Data');
             console.log(data);
         })
         .error(function() {
-            alert('問題が発生しました．やり直してください');
+            alert('問題が発生しました．アプリを再起動してください．');
         });
     $('#main li[name="hint2"]').css('visibility', 'hidden');
 
@@ -28,6 +28,16 @@ $(document).on('pageshow', '#top', function() {
 
 $(document).on('pageinit', '#main', function() {
     App.setGoal = function() {
+        App.homeNum = Math.floor(Math.random() * App.kyoto.length);
+
+        for (var i = 0; i < App.arriveGoals.length; i++) {
+            if (App.homeNum == App.arriveGoals[i]) {
+                App.homeNum = Math.floor(Math.random() * App.kyoto.length);
+                i = -1;
+            }
+        }
+        console.log(App.homeNum);
+
         if (typeof App.geoClient !== 'undefined') {
             App.geoClient.clearWatchPosition();
             $('#main li[name="hint2"]').css('visibility', 'hidden');
@@ -67,10 +77,11 @@ $(document).on('pageinit', '#main', function() {
     App.setGoal();
 
     $('#main img[name="research"], #top div[name="startButton"]').on('click', function() {
-        App.geoClient.clearWatchPosition();
-        App.homeNum = Math.floor(Math.random() * (App.kyoto.length - 1));
-        App.setGoal();
-        console.log(App.homeNum);
+        if (App.arriveGoals.length == App.kyoto.length) {
+            alert('全ての施設を回りました！おめでとうございます！');
+        } else {
+            App.setGoal();
+        }
     });
 
     $(document).on('click', ".hintbutton", function() {
@@ -101,7 +112,15 @@ $(document).on('pageshow', '#main', function() {
 
 $(document).on('pageinit', '#jump', function() {
     $(document).on('click', "#jump", function() {
-        if (App.goalCount <= App.kyoto.length) App.goalCount++;
+        var template = '<li name="place' + App.homeNum + '">' +
+            '<a href="#detailFootprint">' +
+            '<img src="imgs/camera.jpg">' + // TODO: 画像パスに変える
+            '<h2>' + App.kyoto[App.homeNum]['施設名'] + '</h2>' +
+            '</a></li>';
+        $('#footprints').find('ul').append(template);
+
+        App.arriveGoals.push(App.homeNum);
+
         window.location.href = '#goal';
     });
 });
@@ -132,19 +151,20 @@ $(document).on('pageinit', '#goal', function() {
 $(document).on('pageshow', '#goal', function() {
     $(this).find('div[name="placeImg"]').html('<img src="imgs/01.jpg" width="138px" height="172">'); // TODO: App.kyotoの画像パスに変更
     $(this).find('div[name="description"]').html('<p>' + App.kyoto[App.homeNum]['説明文'] + '</p>');
+
     console.log('Loaded Goal Page');
 });
 
 $(document).on('pageinit', '#footprints', function() {
-    for (var i = 0; i < App.kyoto.length; i++) {
-        var template = '<li name="place' + i + '">' +
-            '<a href="#detailFootprint">' +
-            '<img src="imgs/camera.jpg">' + // TODO: 画像パスに変える
-            '<h2>' + App.kyoto[i]['施設名'] + '</h2>' +
-            '</a></li>';
-        $(this).find('ul').append(template);
-    }
-    $(this).find('ul').listview('refresh');
+    // for (var i = 0; i < App.goalCount; i++) {
+    //     var template = '<li name="place' + i + '">' +
+    //         '<a href="#detailFootprint">' +
+    //         '<img src="imgs/camera.jpg">' + // TODO: 画像パスに変える
+    //         '<h2>' + App.kyoto[i]['施設名'] + '</h2>' +
+    //         '</a></li>';
+    //     $(this).find('ul').append(template);
+    // }
+    // $(this).find('ul').listview('refresh');
 
     $(document).on('click', '#footprints ul li', function() {
         var currentPlace = $(this).attr('name').split('place')[1] - 0;
@@ -154,7 +174,8 @@ $(document).on('pageinit', '#footprints', function() {
 });
 
 $(document).on('pageshow', '#footprints', function() {
-    $(this).find('span[name="rate"]').text(Math.floor(App.goalCount / App.kyoto.length * 100));
+    $(this).find('ul').listview('refresh');
+    $(this).find('span[name="rate"]').text(Math.floor(App.arriveGoals.length / App.kyoto.length * 100));
 });
 
 $(document).on('pageinit', '#detailFootprint', function() {
