@@ -61,7 +61,6 @@ $(document).on('pageinit', '#main', function() {
 
             /* TODO: このままでは条件を満たす度に毎回生成されるので対策を考える */
             if (distance <= 2000) {
-                //                 $('#main li[name="hint2"]').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
                 $('#main li[name="hint2"]').css('visibility', 'visible');
             }
 
