@@ -10,6 +10,7 @@
     "permissions": {
         "camera": {
             "description": "Required for accessing cameras on the device."
-        }
+        },
+        "geolocation": {}
     }
 }

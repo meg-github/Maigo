@@ -16,6 +16,7 @@ $(document).on('pageinit', '#top', function() {
         .error(function() {
             alert('問題が発生しました．やり直してください');
         });
+    $('#main li[name="hint2"]').css('visibility', 'hidden');
 
     console.log('Initialize Top Page');
 });
@@ -28,8 +29,8 @@ $(document).on('pageinit', '#main', function() {
     function setGoal() {
         if (typeof App.geoClient !== 'undefined') {
             App.geoClient.clearWatchPosition();
-            $('#main li[name="hint2"]').html('');
-            $('#main li[name="hint3"]').html('');
+            $('#main li[name="hint2"]').css('visibility', 'hidden');
+
         } else {
             App.geoClient = new GeoLocation();
         }
@@ -49,10 +50,8 @@ $(document).on('pageinit', '#main', function() {
 
             /* TODO: このままでは条件を満たす度に毎回生成されるので対策を考える */
             if (distance <= 2000) {
-                $('#main li[name="hint2"]').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
-            }
-            if (distance <= 1000) {
-                $('#main li[name="hint3"]').html('<a href="#hint" class="hintbutton" name="hint3"><img src="imgs/hint3.png" alt="" width="80"></a>');
+                //                 $('#main li[name="hint2"]').html('<a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="" width="80"></a>');
+                $('#main li[name="hint2"]').css('visibility', 'visible');
             }
 
             if (App.distance <= 500) {
@@ -76,8 +75,7 @@ $(document).on('pageinit', '#main', function() {
         var count = 1;
         var hinttxt = { //ヒントのレベル別オブジェクトを作成
             'hint1': App.kyoto[App.homeNum]['ヒント1'],
-            'hint2': App.kyoto[App.homeNum]['ヒント2'],
-            'hint3': App.kyoto[App.homeNum]['ヒント3']
+            'hint2': App.kyoto[App.homeNum]['ヒント3'],
         };
 
         for (var key in hinttxt) {
@@ -106,12 +104,29 @@ $(document).on('pageinit', '#jump', function() {
 });
 
 $(document).on('pageinit', '#goal', function() {
+    $('#titleDialog a[href="#detailFootprint"]').on('click', function() {
+        var activity = new MozActivity({
+            name: 'pick',
+            data: {
+                type: 'image/jpeg'
+            }
+        });
+
+        activity.onsuccess = function() {
+            console.log('SUCCESS(activity): ', this.result);
+            var imgSrc = window.URL.createObjectURL(this.result.blob);
+            $('#detailFootprint div[name="placeImg"]').html('<img src="' + imgSrc + '" height="120">');
+        }
+        activity.onerror = function() {
+            console.error('ERROR(activity):', this.error);
+        }
+    });
 
     console.log('Loaded Goal Page');
 });
 
 $(document).on('pageshow', '#goal', function() {
-    $(this).find('div[name="placeImg"]').html('<img src="imgs/01.jpg" width="210px" height="267px">'); // TODO: App.kyotoの画像パスに変更
+    $(this).find('div[name="placeImg"]').html('<img src="imgs/01.jpg" width="138px" height="172">'); // TODO: App.kyotoの画像パスに変更
     $(this).find('div[name="description"]').html('<p>' + App.kyoto[App.homeNum]['説明文'] + '</p>');
     console.log('Loaded Goal Page');
 });
@@ -131,7 +146,14 @@ $(document).on('pageinit', '#footprints', function() {
 
     $(document).on('click', '#footprints ul li', function() {
         var currentPlace = $(this).attr('name').split('place')[1] - 0;
-        $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="150">'); // TODO: App.kyotoの画像パスに変更
+        $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="120">'); // TODO: App.kyotoの画像パスに変更
         $('#detailFootprint div[name="description"]').html('<p>' + App.kyoto[currentPlace]['説明文'] + '</p>');
+    });
+});
+
+$(document).on('pageinit', '#detailFootprint', function() {
+    $('#commentDialog a').on('click', function() {
+        var comment = $('#commentDialog textarea').val();
+        $('#detailFootprint div[name="comment"]').html('<p>' + comment + '</p>');
     });
 });
