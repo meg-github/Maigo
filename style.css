@@ -1,146 +1,199 @@
+/* アプリ全体に及ぶスタイル設定 */
+
+ul {
+    list-style: none;
+}
+
+/* トップページ */
 #top {
-	background: url(imgs/title.jpg);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: 100% 100%;
-	width: 100%;
-	height: 100%;
+    width: 100%;
+
+    background-image: url('imgs/title.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
+#top div[name='startButton'] {
+        
+    margin-top: 100%;
+    text-align: center;
+}
+
+/* メインページ */
 #main {
-	background: url(imgs/walking.jpg);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: 100% 100%;
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
+    
+    background-image: url('imgs/walking.jpg');
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+/*     background-size: 100% 100%; */
 }
 
-#goal {
-	background: url(imgs/goal_b.png);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	width: 100%;
-	height: 100%;
+#main div[name='destinationInfo'] {
+    margin-right: auto;
+	  margin-left: auto;
+	  text-align: center;
 }
 
-
-#place_picture {
-	width: 40%;
-	float: left;
-	margin-left: 3%;
+#main div[name='destinationInfo'] p {
+    font-size: 130%;
 }
 
-#place_name {
-	width: 60%;
-	margin-left: auto;
-	margin-right: 5%;
+#main div[name='destinationInfo'] span[name='direct'] {
+    color: red;
 }
 
-#place_details {
-	width: 60%;
-	margin-left: auto;
-	margin-right: 3%;
-	float: right;
+#main div[name='destinationInfo'] span[name='dist'] {
+    color: blue;
 }
 
-/*方向をさす*/
-.gazou {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+#main ul[name='hintList'] {
+    margin: 0;
+    padding: 10px 0;
+
+    text-align: center;
 }
 
-/*もどるボタン*/
-.modoru {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+#main ul[name='hintList'] li {
+    margin: 10px;
 }
 
-/*はじまるボタン*/
-.hajimaru {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 120%;
+#main div[name='researchButton'] {
+    width: 35%;
+    
+    margin-left: auto;
 }
 
-
-
-
-/*メインページ*/
-p#random {
-	text-align: center;
-	font-size: large;
-	color: blue;
-}
-
-p#ikisaki_to {
-	margin-top: -15px;
-	text-align: right;
-}
-
-p#houkou_to {
-	font-size: large;
-	margin-top: -50px;
-	text-align: right;
-}
-
-p#hougaku {
-	text-align: center;
-	font-size: xx-large;
-	font-weight: bold;
-	color: #FF8C00;
-}
-
-p#ato {
-	font-size: large;
-}
-
-p#kyori {
-	text-align: center;
-	font-size: xx-large;
-	font-weight: bold;
-	margin-top: -50px;
-}
-
-p#kyori_tani {
-	margin-top: -30px;
-	text-align: right;
-}
-
-a {
-	text-align: center;
-}
-
-
-
-/*ヒントページ*/
+/* ヒントページ */
 #hint {
-	background: url(imgs/hint.jpg);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: 100% 100%;
-	width: 100%;
-	height: 100%;
-	text-align: center;
+    width: 100%;
+
+    background-image: url('imgs/hint.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
+#hint div[name='description'] {
+    width: 80%;
+    margin-top: 30%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#hint div[name='description'] p {
+    font-size: 130%;
+
+    text-align: center;
+}
+
+#hint div[name='backButton'] {
+    width: 50%;
+    margin-top: 60%;
+    margin-right: auto;
+}
+
+/* ジャンプページ */
 #jump {
-	background: url(imgs/jump.jpg);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: 100% 100%;
-	width: 100%;
-	height: 100%;
+    width: 100%;
+
+    background-image: url('imgs/jump.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
+/* ゴールページ */
 #goal {
-	background: url(imgs/goal_re.jpg);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: 100% 100%;
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('imgs/goal_re_2.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
+
+#goal div[name="placeImg"] {
+    margin-left: -2px;
+    margin-top: -8px;
+}
+
+#goal div[name='description'] {
+    width: 80%;
+    height: 105px;
+    margin-top: 35px;
+    margin-right: auto;
+    margin-left: auto;
+
+    overflow: scroll;
+}
+
+#goal div[name='description'] p {
+	  font-size: 130%;
+}
+
+#goal div[name='titleButton'] {
+	  width: 35%;
+    margin-top: 11%;
+    margin-left: auto;
+    text-align: center;
+}
+
+/* あしあとページ */
+#footprints p[name="complete"] {
+  	width: 50%;
+  	font-size: 200%;
+  	margin-top: 50px;
+  	float: left;
+}
+
+#footprints span[name="rate"] {
+	  color: red;
+}
+
+#footprints div[name="backButton"] {
+  	width: 50%;
+  	margin-top: 50px;
+  	margin-left: auto;
+}
+
+/* あしあと詳細ページ */
+#detailFootprint .ui-grid-a .ui-block-a {
+	  text-align: center;
+}
+
+#detailFootprint .ui-grid-a .ui-block-b p {
+	  font-size: 130%;
+}
+
+#detailFootprint div[name="description"] {
+  	width: 90%;
+  	margin-right: auto;
+  	margin-left: auto;
+}
+
+#detailFootprint div[name="description"] p {
+	  font-size: 120%;
+}
+
+#detailFootprint div[name="comment"] {
+	  width: 90%;
+	  margin-right: auto;
+  	margin-left: auto;
+}
+
+#detailFootprint div[name="comment"] p {
+	  font-size: 120%;
+}
+
+#detailFootprint .ui-grid-a {
+    text-align: center;
+}
+
+/* #detailFootprint div[name="backButton"] {
+    width: 50%;
+	  margin-top: 50px;
+	  margin-left: auto;
+}
+ */

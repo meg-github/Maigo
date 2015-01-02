@@ -3,129 +3,99 @@ var PRECISION = 1;
 
 $(document).on('pageinit', '#top', function() {
     $.ajax({
-            url: 'csvData/dummyData.csv', //ファイルの場所を指定
-            type: 'get',
-            dataType: 'text', //読み込む形式を指定
-            // header: false, //ヘッダーの扱い
+            url: 'csvData/kyoto.json',
+            type: 'GET',
+            dataType: 'json'
         })
         .success(function(data) {
-            //csvを配列に入れる
-            var csv = $.csv.toArrays(data); // ← 使ってないよね…？
-            console.log(csv[0][0]);
-            /* 編集ここから(施設をランダム文字列にしている) */
-            //csvを改行コード区切りのデータにする
-            var lines = data.split(/\r\n|\r|\n/);
-            //1からデータ数までの乱数を発生させる
-            var random = (Math.floor(Math.random() * lines.length) + 1);
-            //選ばれたデータをfactorに入れる
-            var factor = lines[random];
-            // console.log(factor);
-            //factorに入っているデータをカンマで区切る
-            var view = factor.split(",");
+            App.kyoto = data;
+            App.arriveGoals = [];
 
-            //施設名ひらがなをぐちゃぐちゃに表示する
-            //施設名ひらがなをsourceに入れる
-            var source = view[3];
-            //一文字ごとに区切る
-            var gucha = source.split('');
-            //適当な順番にソートする
-            gucha.sort(
-                function() {
-                    return Math.random() * 100 - Math.random() * 100;
-                });
-            //ソートされた文字を違う変数に仮置き
-            var karioki = gucha;
-            //一文字区切りのデータを結合する
-            App.randomString = karioki.join("・");
-            /* 編集ここまで */
-
-            App.goalLong = view[0]; // 経度
-            App.goalLat = view[1]; // 緯度
-            App.geoLocation = new GeoLocation();
-
-            console.log('Loaded Top Page');
-            console.log(lines[random]); //発生した乱数の行を読み込む
+            console.log('Loaded JSON Data');
+            console.log(data);
+        })
+        .error(function() {
+            alert('問題が発生しました．アプリを再起動してください．');
         });
+    $('#main li[name="hint2"]').css('visibility', 'hidden');
 
-});
-
-$(document).on('pageshow', '#top', function() {
-    App.distance = 5.0;
-    $('#kyori').empty();
-    $('#kyori').append(App.distance);
-    $('#hint2').empty();
-    $('#hint3').empty();
     console.log('Initialize Top Page');
 });
 
+$(document).on('pageshow', '#top', function() {
+
+});
+
 $(document).on('pageinit', '#main', function() {
-    // $('#random').append(App.randomString); //ランダムの文字列を入れている
-    console.log(App.randomString);
-    App.distance = 5.0; //距離の変数の初期値
+    App.setGoal = function() {
+        App.homeNum = Math.floor(Math.random() * App.kyoto.length);
 
-    // App.geoLocation.watchCurrentPosition(function(pos) {
-    //     var currentLat = pos.coords.latitude;
-    //     var currentLong = pos.coords.longitude;
-
-    //     App.distance = App.geoLocation.getGeoDistance(App.goalLat, App.goalLong, currentLat, currentLong, PRECISION);
-    //     $('#kyori').append(App.distance);
-    //     console.log(App.distance + "km"); // 距離(km)
-
-    //     App.direction = App.geoLocation.getGeoDirection(App.goalLat, App.goalLong, currentLat, currentLong);
-    //     $('#hougaku').append(App.direction);
-    //     console.log(App.direction); // 方位(e.g., 北, 南)
-
-    // if(App.direction="北"){
-    //   $('#abc').append("ほうがくううううううう");
-    //   App.gazou="imgs/up_center.png";
-    // }else if(App.direction="南"){
-    //   $('#abc').append("ほうがく");
-    //   App.gazou="imgs/low_center.png";
-    // }else if(App.direction="西"){
-    //   $('#abc').append("ほうがくう2344う");
-    //   App.gazou="imgs/center_left.png";
-    // }else if(App.direction="東"){
-    //   $('#abc').append("ほうがくうう7ye4iurtcins");
-    //   App.gazou="imgs/center_right.png";
-    // }else if(App.direction="北東"){
-    //   $('#abc').append("ほうがwwaaefawef");
-    // }else if(App.direction="北西"){
-    //   $('#abc').append("ほうがくljlkjl");
-    // }else if(App.direction="南東"){
-    //   App.gazou="imgs/up_center.png";
-    // }else(App.direction="南西"){
-    //   App.gazou="imgs/up_center.png";
-    // }
-    // });
-    //ヒントの表示プログラム
-    $("#distance").on('click', function() {
-        $('#kyori').empty();
-        App.distance = App.distance - 0.5; //500mずつ近づく
-        $('#kyori').append(App.distance); //距離の表示
-
-        if (App.distance <= 3) {
-            $('#hint2').html('<a href="#hint" class="hintbutton" name="hint2">ヒント2</a>');
+        for (var i = 0; i < App.arriveGoals.length; i++) {
+            if (App.homeNum == App.arriveGoals[i]['num']) {
+                App.homeNum = Math.floor(Math.random() * App.kyoto.length);
+                i = -1;
+            }
         }
-        if (App.distance <= 1) {
-            $('#hint3').html('<a href="#hint" class="hintbutton" name="hint3">ヒント3</a>');
+        console.log(App.homeNum);
+
+        if (typeof App.geoClient !== 'undefined') {
+            App.geoClient.clearWatchPosition();
+            $('#main li[name="hint2"]').css('visibility', 'hidden');
+
+        } else {
+            App.geoClient = new GeoLocation();
         }
 
-        if (App.distance <= 0.5) {
-            window.location.href = '#jump';
+        App.geoClient.watchCurrentPosition(function(pos) {
+            var currentLat = pos.coords.latitude;
+            var currentLong = pos.coords.longitude;
+
+            var distance = Math.floor(App.geoClient.getGeoDistance( // 距離
+                App.kyoto[App.homeNum]['X'], App.kyoto[App.homeNum]['Y'],
+                currentLat, currentLong, PRECISION
+            ));
+            var direction = App.geoClient.getGeoDirection( // 方向
+                currentLat, currentLong,
+                App.kyoto[App.homeNum]['X'], App.kyoto[App.homeNum]['Y']
+            );
+
+            /* TODO: このままでは条件を満たす度に毎回生成されるので対策を考える */
+            if (distance <= 2000) {
+                $('#main li[name="hint2"]').css('visibility', 'visible');
+            }
+
+            if (App.distance <= 500) {
+                App.geoClient.clearWatchPosition();
+                window.location.href = '#jump';
+            }
+
+            $('div[name="destinationInfo"]').find('span[name="direct"]').html(direction);
+            $('div[name="destinationInfo"]').find('span[name="dist"]').html(distance);
+        });
+    };
+    App.setGoal();
+
+    $('#main img[name="research"], #top div[name="startButton"]').on('click', function() {
+        if (App.arriveGoals.length == App.kyoto.length) {
+            alert('全ての施設を回りました！おめでとうございます！');
+        } else {
+            App.setGoal();
         }
     });
 
     $(document).on('click', ".hintbutton", function() {
-
+        var count = 1;
         var hinttxt = { //ヒントのレベル別オブジェクトを作成
-            'hint1': 'ヒント1',
-            'hint2': 'ヒント2',
-            'hint3': 'ヒント3'
+            'hint1': App.kyoto[App.homeNum]['ヒント1'],
+            'hint2': App.kyoto[App.homeNum]['ヒント3'],
         };
 
         for (var key in hinttxt) {
             if (key == $(this).attr("name")) {
-                $('#comment').html('<p>いま' + hinttxt[key] + 'が表示されています</p>');
+                $('#hint p[name="hint"]').text('ヒント' + count);
+                $('#hint div[name="description"]').html('<p>' + hinttxt[key] + '</p>');
+            } else {
+                count++;
             }
         }
     });
@@ -140,13 +110,118 @@ $(document).on('pageshow', '#main', function() {
 });
 
 $(document).on('pageinit', '#jump', function() {
-
     $(document).on('click', "#jump", function() {
+        var template = '<li name="place' + App.homeNum + '">' +
+            '<a href="#detailFootprint">' +
+            '<img src="imgs/camera.jpg">' + // TODO: 画像パスに変える
+            '<h2>' + App.kyoto[App.homeNum]['施設名'] + '</h2>' +
+            '</a></li>';
+        $('#footprints').find('ul').append(template);
+
+        App.arriveGoals.push({
+            'num': App.homeNum,
+            'comment': '',
+            'photo': ''
+        });
+
         window.location.href = '#goal';
     });
 });
 
 $(document).on('pageinit', '#goal', function() {
+    $('#titleDialog a[href="#footprints"]').on('click', function() {
+        var activity = new MozActivity({
+            name: 'pick',
+            data: {
+                type: 'image/jpeg'
+            }
+        });
+
+        activity.onsuccess = function() {
+            console.log('SUCCESS(activity): ', this.result);
+            var imgSrc = window.URL.createObjectURL(this.result.blob);
+            App.arriveGoals[App.arriveGoals.length - 1]['photo'] = imgSrc;
+            $('#detailFootprint div[name="placeImg"]').html('<img src="' + imgSrc + '" height="120">');
+        };
+
+        activity.onerror = function() {
+            console.error('ERROR(activity):', this.error);
+        };
+    });
 
     console.log('Loaded Goal Page');
+});
+
+$(document).on('pageshow', '#goal', function() {
+    $(this).find('div[name="placeImg"]').html('<img src="imgs/01.jpg" width="138px" height="172">'); // TODO: App.kyotoの画像パスに変更
+    $(this).find('div[name="description"]').html('<p>' + App.kyoto[App.homeNum]['説明文'] + '</p>');
+
+    console.log('Loaded Goal Page');
+});
+
+$(document).on('pageinit', '#footprints', function() {
+
+    $(document).on('click', '#footprints ul li', function() {
+        App.currentPlace = $(this).attr('name').split('place')[1] - 0;
+
+        for (var i = 0; i < App.arriveGoals.length; i++) {
+            if (App.currentPlace == App.arriveGoals[i]['num']) {
+
+                if (App.arriveGoals[App.arriveGoals.length - 1]['photo'] !== '') {
+                    $('#detailFootprint div[name="placeImg"]')
+                        .html('<img src="' + App.arriveGoals[i]['photo'] + '" alt="カメラ" height="120">');
+                } else {
+                    $('#detailFootprint div[name="placeImg"]').html('<img src="./imgs/01.jpg" alt="カメラ" height="120">');
+                }
+                $('#detailFootprint div[name="description"]').html('<p>' + App.kyoto[App.currentPlace]['説明文'] + '</p>');
+                $('#detailFootprint div[name="comment"]').html('<p>' + App.arriveGoals[i]['comment'] + '</p>');
+
+                break;
+            }
+        }
+    });
+});
+
+$(document).on('pageshow', '#footprints', function() {
+    $(this).find('ul').listview('refresh');
+    $(this).find('span[name="rate"]').text(Math.floor(App.arriveGoals.length / App.kyoto.length * 100));
+});
+
+$(document).on('pageinit', '#detailFootprint', function() {
+    $('#detailFootprint div[name="placeImg"]').on('click', function() {
+        var activity = new MozActivity({
+            name: 'pick',
+            data: {
+                type: 'image/jpeg'
+            }
+        });
+
+        activity.onsuccess = function() {
+            console.log('SUCCESS(activity): ', this.result);
+            var imgSrc = window.URL.createObjectURL(this.result.blob);
+
+            for (var i = 0; i < App.arriveGoals.length; i++) {
+                if (App.currentPlace == App.arriveGoals[i]['num']) {
+                    App.arriveGoals[i]['photo'] = imgSrc;
+                    $('#detailFootprint div[name="placeImg"]').html('<img src="' + imgSrc + '" height="120">');
+                    break;
+                }
+            }
+        };
+
+        activity.onerror = function() {
+            console.error('ERROR(activity):', this.error);
+        };
+    });
+
+    $('#commentDialog a[name="writeComment"]').on('click', function() {
+        for (var i = 0; i < App.arriveGoals.length; i++) {
+            if (App.currentPlace == App.arriveGoals[i]['num']) {
+                App.arriveGoals[i]['comment'] = $('#commentDialog textarea').val();
+                $('#detailFootprint div[name="comment"]').html('<p>' + App.arriveGoals[i]['comment'] + '</p>');
+                break;
+            }
+        }
+        $('#commentDialog textarea').val('');
+    });
 });

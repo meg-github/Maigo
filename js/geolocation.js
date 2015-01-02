@@ -38,7 +38,7 @@ GeoLocation.prototype.getGeoDistance = function(lat1, lng1, lat2, lng2, precisio
 
         distance = A * (X + L);
         var decimal_no = Math.pow(10, precision);
-        distance = Math.round(decimal_no * distance / 1000) / decimal_no; // kmに変換するときは(1000で割る)
+        distance = Math.round(decimal_no * distance / 1) / decimal_no; // kmに変換するときは(1000で割る)
     }
     return distance;
 };

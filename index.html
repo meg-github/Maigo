@@ -22,67 +22,189 @@
     <!-- トップページ -->
     <div data-role="page" id="top">
         <div role="main" class="ui-content">
-            <a href="#main">
-                <img src="imgs/button_start.jpg" class="hajimaru">
-            </a>
+            <a href="#footprints" style="font-size: 300%; color: red;">あしあとを見る</a>
+            <div name="startButton">
+                <a href="#main"><img src="imgs/button_start.jpg"></a>
+            </div>
         </div>
     </div>
 
     <!-- メインページ(検索画面) -->
     <div data-role="page" id="main">
         <div role="main" class="ui-content">
-            <p id="random" style="position: relative;"></p>
-            <p id="ikisaki_to">にいくよ！</p>
-            <p id="ato">あと</p>
-            <p id="kyori"></p>
-            <p>km</p>
-           <!--  <p id="hougaku" style="position: relative;"></p>
-            <p id="houkou_to">へ</p>
-            <p id="ato">あと</p>
-            <p id="kyori" style="position: relative;"></p>
-            <p id="kyori_tani">キロメートル</p> -->
-            <center>
-                <img src="imgs/low_center.png" class="gazou">
-            </center>
-            <!--距離ボタンの設置-->
-            <a href="#main" id="distance">
-            	<p>500メートル近づく</p>
-            </a>
-            <!-- ヒントボタンの設置 -->
-            <div style="text-align: center; padding-bottom: 20px;">
-                <span><a href="#hint" class="hintbutton" name="hint1">ヒント1</a></span>
-                <span style="padding-right: 10px; padding-left: 10px;" id="hint2"></span>
-                <span id="hint3"></span>
+            <!-- 目的地に関する情報提示 -->
+            <div name="destinationInfo">
+                <p><span name="direct"></span>へ</p>
+                <p>あと<span name="dist"></span>m</p>
+                <img src="imgs/low_center.png">
             </div>
 
-            <a href="#top"><img src="imgs/button_back.jpg" class="modoru" style="height: 80px;"></a>
+            <!-- ヒントのリスト -->
+            <ul name="hintList">
+                <li name="hint1"><a href="#jump" class="hintbutton" name="hint1"><img src="imgs/hint1.png" alt="ヒント1" ></a></li>
+                <li name="hint2"><a href="#hint" class="hintbutton" name="hint2"><img src="imgs/hint2.png" alt="ヒント2" ></a></li>
+            </ul>
+
+            <!-- 再検索ボタン -->
+            <div name="researchButton">
+                <a href="#confirmDialog" data-rel="popup" data-position-to="window" data-transition="pop">
+                    <img src="imgs/button_back.jpg" name="research" height="40px">
+                </a>
+            </div>
+
+            <div data-role="popup" id="confirmDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width: 300px;">
+                <div data-role="header" data-theme="a">
+                    <h1>目的地の変更</h1>
+                </div>
+                <div role="main" class="ui-content">
+                    <h3>目的地の変更が正常に行われました．</h3>
+                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b" data-rel="back">OK</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- ヒントページ -->
     <div data-role="page" id="hint">
-    	<div role="main" class="ui-conent">
-    		<p id="comment" style="padding-top: 150px;"></p>
-    	</div>
-        <a href="#main"><img src="imgs/button_back.jpg" style="position: absolute; top:450px; left: 10px; height: 50px;"></a>
+        <div role="main" class="ui-conent">
+            <p style="font-size: 300%; text-align: center;" name="hint">ヒント1</p><!-- TODO: 画像に変更 -->
+
+            <!-- ヒントの説明文 -->
+            <div name="description">
+                <p>
+                    ここは京都のお寺です．あああああああああああああああ
+                    ああああああああああああああああああああああああああ
+                    ここは京都のお寺です．あああああああああああああああ
+                    ああああああああああああああああああああああああああ
+                </p>
+            </div>
+
+            <!-- 戻るボタン -->
+            <div name="backButton">
+                <a href="#main"><img src="imgs/button_back.jpg" height="60px"></a>
+            </div>
+        </div>
+
     </div>
 
-    <!--ジャンプのページ -->
+    <!--ジャンプページ -->
     <div data-role="page" id="jump">
-    	<div role="main" class="ui-content">
-    	</div>
-        <a href="#main"><img src="imgs/button_back.jpg" style="position: absolute; top:480px; left: 100px; height: 50px;"></a>
+        <div role="main" class="ui-content"></div>
     </div>
 
     <!-- ゴールページ -->
     <div data-role="page" id="goal">
-        <div data-role="header">
-        </div>
         <div role="main" class="ui-content">
-            <h1>
-                <img src="imgs/goal.png">
-            </h1>
-            <a href="#top"><img src="imgs/button_back.jpg" style="position: absolute; top:480px; left: 100px; height: 50px;"></a>
+            <h1><img src="imgs/goal.png"></h1>
+
+            <div name="placeImg">
+                <img src="imgs/01.jpg" width="50px">
+            </div>
+
+            <!-- 施設の説明文 -->
+            <div name="description"></div>
+
+            <!-- タイトルボタン -->
+            <div name="titleButton">
+                <a href="#titleDialog" data-rel="popup" data-position-to="window" data-transition="pop">
+                    <img src="imgs/button_back.jpg" height="40px">
+                </a>
+            </div>
+
+            <div data-role="popup" id="titleDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width: 300px;">
+                <div data-role="header" data-theme="a">
+                    <h1>あしあと</h1>
+                </div>
+
+                <div role="main" class="ui-content">
+                    <h3>あしあとをつけますか？</h3>
+                    <a href="#top" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">いいえ</a>
+                    <a href="#footprints" class="ui-btn ui-corner-all ui-btn-inline ui-shadow ui-btn-b" >はい</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- あしあとページ -->
+    <div data-role="page" id="footprints">
+        <div role="main" class="ui-content">
+            <h1>あしあと</h1>
+
+            <!-- あしあとリスト -->
+            <ul data-role="listview">
+<!--                 <li>
+                    <a href="#detailFootprint">
+                        <img src="imgs/01.jpg">
+                        <h2>松下光範の像</h2>
+                        <p>関西大学総合情報学部松下研究室に存在する彫像</p>
+                    </a>
+                </li> -->
+            </ul>
+
+            <!-- コンプリート率と戻るボタン -->
+            <p name="complete"><span name="rate">50</span>%コンプリート</p>
+            <div name="backButton">
+                <a href="#top"><img src="imgs/button_back.jpg" height="60px"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- あしあと詳細ページ -->
+    <div data-role="page" id="detailFootprint">
+        <div role="main" class="ui-content">
+            <h1>あしあと</h1>
+
+            <!-- 写真と撮影日-->
+            <div class="ui-grid-a">
+                <div class="ui-block-a" name="placeImg">
+                    <img src="./imgs/01.jpg" alt="カメラ" height="120px">
+                </div>
+                <div class="ui-block-b">
+                    <p>2014年11月15日撮影</p>
+                </div>
+            </div>
+
+            <!-- 施設説明 -->
+            <div name="description">
+                <p>
+                    これは，関西大学松下研究室にある．
+                    松下光範の像です．
+                    松下研究室が発足した2009年に建造されました．
+                </p>
+            </div>
+
+            <!-- ユーザコメント -->
+            <div name="comment">
+                <p>
+                    これが噂の光範の像かー…本物より優しそうｗ
+                </p>
+            </div>
+
+            <!-- 戻るボタン -->
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#commentDialog"  data-rel="popup" data-position-to="window" data-transition="pop">
+                        <img src="imgs/button_back.jpg" height="50px">
+                    </a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#footprints"><img src="imgs/button_back.jpg" height="50px"></a>
+                </div>
+            </div>
+
+            <div data-role="popup" id="commentDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width: 300px;">
+                <div data-role="header" data-theme="a">
+                    <h1>コメント</h1>
+                </div>
+                <div role="main" class="ui-content">
+                    <h3>コメントしてください．</h3>
+                    <textarea name="comment" rows="6" cols="40"></textarea>
+                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">キャンセル</a>
+                    <a href="#" name="writeComment" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">OK</a>
+
+                </div>
+            </div>
         </div>
     </div>
 
